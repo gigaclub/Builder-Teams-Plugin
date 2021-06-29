@@ -8,11 +8,12 @@ import net.gigaclub.translation.Translation;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
+
 public final class Main extends JavaPlugin {
     private static Main plugin;
     private static Translation translation;
     private static BuilderSystem builderSystem;
-
 
 
     @Override
@@ -71,6 +72,7 @@ public final class Main extends JavaPlugin {
 
         System.out.println("Config files set.");
     }
+
     public static Main getPlugin() {
         return plugin;
     }
@@ -78,5 +80,13 @@ public final class Main extends JavaPlugin {
     public static void setPlugin(Main plugin) {
         Main.plugin = plugin;
 
+    }
+
+    public static void registerTranslations() {
+        Main.translation.registerTranslations(Arrays.asList(
+                "BuilderTeam.ToLessArguments",
+                ""
+
+        ));
     }
 }
