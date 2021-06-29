@@ -1,0 +1,14 @@
+name: Builder_Teams_Plugin
+version: ${project.version}
+main: net.gigaclub.builderteamsplugin.Main
+api-version: 1.16
+authors: [ Feier68 ]
+prefix: [Builder Teams]
+description: Builder-Teams-Plugin
+depend: [ Builder_System_Plugin ]
+website: Gigaclub.net
+
+
+commands:
+  bsc:
+    description:
