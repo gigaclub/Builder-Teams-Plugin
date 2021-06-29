@@ -56,22 +56,30 @@ public class Team implements CommandExecutor, TabCompleter {
                                     builderSystem.editTeam(playerUUID,args[3],args[4]);
                                 break;
                             case "description":
-                              Map<String, String> team= builderSystem.getTeamNameByMember(playerUUID);
-//                              skript  teamnahmen abgleichen mit args[3]
-
-
-                              builderSystem.editTeam(playerUUID,args[3],null,"skript für args");
-
+                              String team = (String) builderSystem.getTeam(args[3]);
+                              builderSystem.editTeam(playerUUID,args[3],team,"skript für args");
                                     break;
                                 }
                     break;
                 case "leave":
                   builderSystem.leaveTeam(playerUUID);
                     break;
-
+                case "kick":
+                    if(args.length == 3){
+                        player.sendMessage(t.t(playerUUID,"BuilderTeam.ToLessArguments"));
+                        return false;
+                    }
+                    if(args.length == 4)
+                    builderSystem.kickMember(playerUUID,args[3]);
+                    break;
+                case "manager":
+                    builderSystem.promoteMember(playerUUID,args[3]);
+                    break;
 
              }
+
             }
+            return false;
         }
      return false;
     }
