@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -72,10 +73,12 @@ public class Team implements CommandExecutor, TabCompleter {
                     if(args.length == 4)
                     builderSystem.kickMember(playerUUID,args[3]);
                     break;
-                case "manager":
-                    builderSystem.promoteMember(playerUUID,args[3]);
+                case "addmanager":
+                    builderSystem.promoteMember(playerUUID,args[2]);
                     break;
-
+                case "add":
+                    builderSystem.addMember(playerUUID,args[2]);
+                    break;
              }
 
             }
@@ -86,6 +89,59 @@ public class Team implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        Player player = (Player) sender;
+        String playerUUID = player.getUniqueId().toString();
+        Translation t = Main.getTranslation();
+        BuilderSystem builderSystem = Main.getBuilderSystem();
+
+       if(args.length == 1){
+           List<String> arguments = new ArrayList<>();
+           arguments.add("Create");
+           arguments.add("Edit");
+           arguments.add("Leave");
+           arguments.add("Kick");
+           arguments.add("addManager");
+           arguments.add("add");
+
+           return arguments;
+       }
+       switch (args[1].toLowerCase(Locale.ROOT)) {
+            case "create":
+                if(args.length == 3) {
+                    List<String> createname = new ArrayList<>();
+                    createname.add("<"+t.t(playerUUID,"BuilderTeam.Create.TeamName"+">"));
+                    return createname;
+                }else if (args.length == 4) {
+                    List<String> createDescription = new ArrayList<>();
+                    createDescription.add("<"+ t.t(playerUUID, "BuilderTeam.Create.Description"+">"));
+                    return createDescription;
+                }
+                break;
+            case "Edit":
+                if(args.length ==3){
+                    switch (args[1].toLowerCase(Locale.ROOT)) {
+                        case "name":
+                            if(args.length == 4) {
+                                List<String> editTeam = new ArrayList<>();
+                               editTeam.add("");
+                                builderSystem.getTeamNameByMember(playerUUID);
+                            return editTeam;
+                            }else
+                            if(args.length == 5) {
+                                List<String> createnewname = new ArrayList<>();
+                                createnewname.add("<"+t.t(playerUUID,"BuilderTeam.Create.newTeamName"+">"));
+                                return createnewname;
+
+                            break;
+                        case "description":
+                            if(args.length == 4)
+                            break;
+                    }
+
+                }
+                break;
+
+        }
         return null;
     }
 
