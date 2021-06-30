@@ -1,6 +1,7 @@
 package net.gigaclub.builderteamsplugin;
 
 import net.gigaclub.buildersystem.BuilderSystem;
+import net.gigaclub.builderteamsplugin.Commands.Team;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
 import net.gigaclub.builderteamsplugin.Config.OdooConfig;
@@ -18,10 +19,17 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        plugin = this;
         setPlugin(this);
+        Team team;
+        team = new Team();
+        getCommand("teams").setExecutor( team);
+        getCommand("teams").setTabCompleter(team);
 
         setConfig();
         FileConfiguration config = getConfig();
+
+
 
 
         setTranslation(new Translation(
@@ -49,15 +57,12 @@ public final class Main extends JavaPlugin {
     public static Translation getTranslation() {
         return translation;
     }
-
     public static void setTranslation(Translation translation) {
         Main.translation = translation;
     }
-
     public static BuilderSystem getBuilderSystem() {
         return Main.builderSystem;
     }
-
     public static void setBuilderSystem(BuilderSystem builderSystem) {
         Main.builderSystem = builderSystem;
     }
@@ -85,6 +90,9 @@ public final class Main extends JavaPlugin {
     public static void registerTranslations() {
         Main.translation.registerTranslations(Arrays.asList(
                 "BuilderTeam.ToLessArguments",
+                "BuilderTeam.Create.TeamName",
+                "BuilderTeam.Create.newTeamName",
+                "BuilderTeam.Create.Description",
                 ""
 
         ));

@@ -43,10 +43,10 @@ repositories {
             password = GITHUB_PACKAGES_IMPORT_TOKEN
         }
     }
-//    maven {
-//        name = "cloudnet-snapshots"
-//        url = uri("https://repo.cloudnetservice.eu/repository/snapshots/")
-//    }
+    maven {
+        name = "cloudnet-snapshots"
+        url = uri("https://repo.cloudnetservice.eu/repository/snapshots/")
+    }
     maven {
         name = "GitHubPackagesTranslation"
         url = uri("https://maven.pkg.github.com/gigaclub/translationapi")
@@ -64,8 +64,8 @@ repositories {
 dependencies {
     implementation("net.gigaclub:translationapi:14.0.1.0.3")
     implementation("net.gigaclub:buildersystemapi:14.0.1.0.0")
-//    implementation("de.dytanic.cloudnet:cloudnet-bridge:3.4.0-SNAPSHOT")
-//    implementation("de.dytanic.cloudnet:cloudnet-driver:3.4.0-SNAPSHOT")
+    implementation("de.dytanic.cloudnet:cloudnet-bridge:3.4.0-SNAPSHOT")
+    implementation("de.dytanic.cloudnet:cloudnet-driver:3.4.0-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
 }
 

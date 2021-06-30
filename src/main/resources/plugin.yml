@@ -2,13 +2,16 @@ name: Builder_Teams_Plugin
 version: ${project.version}
 main: net.gigaclub.builderteamsplugin.Main
 api-version: 1.16
-authors: [ Feier68 ]
-prefix: [Builder Teams]
+authors: [Feier68]
+prefix: Builder Teams
 description: Builder-Teams-Plugin
-depend: [ Builder_System_Plugin ]
+depend:
+  - Builder_System_Plugin
+  - Translation
+  - CloudNet-Bridge
 website: Gigaclub.net
 
 
 commands:
-  bsc:
-    description:
+  teams:
+    description: command zum ertellen von teams und verwalten von teams
