@@ -1,15 +1,14 @@
 package net.gigaclub.builderteamsplugin;
 
 import net.gigaclub.buildersystem.BuilderSystem;
+import net.gigaclub.builderteamsplugin.Commands.Team;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
 import net.gigaclub.builderteamsplugin.Config.OdooConfig;
 import net.gigaclub.translation.Translation;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Team;
 
-import java.io.ObjectInputFilter;
 import java.util.Arrays;
 
 public final class Main extends JavaPlugin {
@@ -22,6 +21,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         setPlugin(this);
+
         Team team;
         team = new Team();
         getCommand("teams").setExecutor( team);
@@ -92,9 +92,10 @@ public final class Main extends JavaPlugin {
         Main.translation.registerTranslations(Arrays.asList(
                 "BuilderTeam.ToLessArguments",
                 "BuilderTeam.Create.TeamName",
-                "BuilderTeam.Create.newTeamName",
-                "BuilderTeam.Create.Description",
-                ""
+                "BuilderTeam.Edit.newTeamName",
+                "BuilderTeam.Edit.newDescription",
+                "BuilderTeam.Create.onlyName",
+                "BuilderTeam.Create.NameDesc"
 
         ));
     }

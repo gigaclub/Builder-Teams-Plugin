@@ -6,7 +6,7 @@ public class OdooConfig {
 
     public static void setOdooConfig() {
 
-        FileConfiguration config = Config.getConfig();
+        FileConfiguration config = Config.getConfig("Teams.create.MaxWorld");
 
         config.addDefault("Base.Odoo.Host", "http://localhost:14069");
         config.addDefault("Base.Odoo.Database", "devel");
