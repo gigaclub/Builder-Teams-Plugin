@@ -90,7 +90,6 @@ public final class Main extends JavaPlugin {
     }
 
     public static void registerTranslations() {
-        System.out.println("test");
         Main.translation.registerTranslations(Arrays.asList(
                 "builder_team.ToLessArguments",
                 "builder_team.wrong_arguments",
@@ -112,6 +111,11 @@ public final class Main extends JavaPlugin {
 
                 "builder_team.edit.tab_teamname",
                 "builder_team.edit.tab_description"
+
+
+//      status msg´s
+
+
         ));
     }
 }

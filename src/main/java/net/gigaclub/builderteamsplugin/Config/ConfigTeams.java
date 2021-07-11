@@ -8,7 +8,7 @@ public class ConfigTeams {
 
         FileConfiguration config = Config.getConfig();
 
-        config.addDefault("Teams.create.MaxWorld", 50);
+        config.addDefault("Teams.create.MaxWorld", 25);
 
 
         Config.save();
