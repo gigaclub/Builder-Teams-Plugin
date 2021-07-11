@@ -47,6 +47,7 @@ public final class Main extends JavaPlugin {
                 config.getString("Base.Odoo.Password")
         ));
 
+        registerTranslations();
     }
 
 
@@ -89,14 +90,17 @@ public final class Main extends JavaPlugin {
     }
 
     public static void registerTranslations() {
+        System.out.println("test");
         Main.translation.registerTranslations(Arrays.asList(
                 "BuilderTeam.ToLessArguments",
                 "BuilderTeam.Create.TeamName",
+                "BuilderTeam.Create.TabDescription",
+                "BuilderTeam.Create.TabTeamName",
+                "BuilderTeam.Create.Description",
                 "BuilderTeam.Edit.newTeamName",
                 "BuilderTeam.Edit.newDescription",
-                "BuilderTeam.Create.onlyName",
-                "BuilderTeam.Create.NameDesc"
-
+                "BuilderTeam.Edit.TabNewTeamName",
+                "BuilderTeam.Edit.TabNewDescription"
         ));
     }
 }
