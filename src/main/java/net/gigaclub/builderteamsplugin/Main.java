@@ -21,6 +21,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         setPlugin(this);
+
         Team team;
         team = new Team();
         getCommand("teams").setExecutor( team);
@@ -46,6 +47,7 @@ public final class Main extends JavaPlugin {
                 config.getString("Base.Odoo.Password")
         ));
 
+        registerTranslations();
     }
 
 
@@ -88,12 +90,18 @@ public final class Main extends JavaPlugin {
     }
 
     public static void registerTranslations() {
+        System.out.println("test");
         Main.translation.registerTranslations(Arrays.asList(
                 "BuilderTeam.ToLessArguments",
                 "BuilderTeam.Create.TeamName",
-                "BuilderTeam.Create.newTeamName",
+                "BuilderTeam.Create.TabDescription",
+                "BuilderTeam.Create.TabTeamName",
                 "BuilderTeam.Create.Description",
-                ""
+                "BuilderTeam.Edit.newTeamName",
+                "BuilderTeam.Edit.newDescription",
+                "BuilderTeam.Edit.TabNewTeamName",
+                "BuilderTeam.Edit.TabNewDescription"
+
 
         ));
     }

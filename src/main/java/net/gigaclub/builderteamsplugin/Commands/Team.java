@@ -1,7 +1,5 @@
 package net.gigaclub.builderteamsplugin.Commands;
 
-import de.dytanic.cloudnet.ext.bridge.player.ICloudPlayer;
-import de.dytanic.cloudnet.ext.bridge.player.IPlayerManager;
 import net.gigaclub.buildersystem.BuilderSystem;
 import net.gigaclub.builderteamsplugin.Main;
 import net.gigaclub.translation.Translation;
@@ -10,11 +8,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static net.gigaclub.builderteamsplugin.Config.Config.getConfig;
 
 public class Team implements CommandExecutor,TabCompleter {
 
@@ -27,66 +30,93 @@ public class Team implements CommandExecutor,TabCompleter {
         BuilderSystem builderSystem = Main.getBuilderSystem();
 
 
+
         if (args.length > 0) {
+
             if (sender instanceof Player) {
-                if (player.hasPermission("BuilderTeam.use"))
-                    switch (args[1].toLowerCase(Locale.ROOT)) {
-                        case "create":
-                            if (args.length == 2) {
-                                player.sendMessage(t.t(playerUUID, "BuilderTeam.ToLessArguments"));
-                                return false;
-                            } else if (args.length == 3) {
-                                builderSystem.createTeam(playerUUID, args[2]);
-                            } else if (args.length == 4)
-                                builderSystem.createTeam(playerUUID, args[2], "skript für args");
-                            break;
-                        case "edit":
-                            if (args.length == 2) {
-                                player.sendMessage(t.t(playerUUID, "BuilderTeam.ToLessArguments"));
-                                return false;
-                            } else if (args.length == 3) {
-                                player.sendMessage(t.t(playerUUID, "BuilderTeam.ToLessArguments"));
-                                return false;
-                            } else
-                                switch (args[1].toLowerCase(Locale.ROOT)) {
-                                    case "name":
-                                        if (args.length == 4) {
-                                            player.sendMessage(t.t(playerUUID, "BuilderTeam.ToLessArguments"));
-                                            return false;
-                                        } else if (args.length == 5)
-                                            builderSystem.editTeam(playerUUID, args[3], args[4]);
-                                        break;
-                                    case "description":
-                                        String team = (String) builderSystem.getTeam(args[3]);
-                                        builderSystem.editTeam(playerUUID, args[3], team, "skript für args");
-                                        break;
+
+                if (player.hasPermission("BuilderTeam.use")) {
+
+                    if (args.length >= 1) {
+                        System.out.println(args[0].toLowerCase());
+                        switch (args[0].toLowerCase()) {
+                            case "create":
+
+                                if (args.length == 1) {
+
+                                    player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
+                                    return false;
+                                } else if (args.length == 2) {
+
+                                    builderSystem.createTeam(playerUUID, args[1]);
+                                    //                       z.b  Du hast die gruppe args[1] erstellt mit der Beschreibung
+                                    player.sendMessage(t.t("BuilderTeam.Create.onlyName", playerUUID));
+                                } else if (args.length >= 3) {
+
+                                    //                     z.b du hast die gruppe args[1] mit der beschreibung ...
+                                    builderSystem.createTeam(playerUUID, args[1], getDescription(args, 3));
+                                    player.sendMessage(t.t("BuilderTeam.Create.NameDesc", playerUUID, Arrays.asList(getDescription(args, 3))));
                                 }
-                            break;
-                        case "leave":
-                            builderSystem.leaveTeam(playerUUID);
-                            break;
-                        case "kick":
-                            if (args.length == 3) {
-                                player.sendMessage(t.t(playerUUID, "BuilderTeam.ToLessArguments"));
-                                return false;
-                            }
-                            if (args.length == 4)
-                                builderSystem.kickMember(playerUUID, args[3]);
-                            break;
-                        case "addmanager":
-                            builderSystem.promoteMember(playerUUID, args[2]);
-                            break;
-                        case "add":
-                            builderSystem.addMember(playerUUID, args[2]);
-                            break;
+                                break;
+                            case "edit":
+                                if (args.length == 1) {
+                                    player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
+                                    return false;
+                                } else if (args.length == 2) {
+                                    player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
+                                    return false;
+                                } else
+                                    switch (args[0].toLowerCase()) {
+                                        case "name" -> {
+                                            if (args.length == 3) {
+                                                player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
+                                                return false;
+                                            } else if (args.length == 4)
+                                                builderSystem.editTeam(playerUUID, args[2], args[3]);
+                                            player.sendMessage(t.t("BuilderTeam.Edit.editName", playerUUID));
+                                        }
+                                        case "description" -> {
+                                            String team = (String) builderSystem.getTeam(args[2]);
+                                            System.out.println(team);
+                                            builderSystem.editTeam(playerUUID, args[2], team, getDescription(args, 3));
+                                            player.sendMessage(t.t("BuilderTeam.Edit.editDescription", playerUUID));
+                                        }
+                                    }
+                                break;
+                            case "leave":
+                                builderSystem.leaveTeam(playerUUID);
+                                player.sendMessage(t.t("BuilderTeam.Leave", playerUUID));
+                                break;
+                            case "kick":
+                                if (args.length == 2) {
+                                    player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
+                                    return false;
+                                }
+                                if (args.length == 3)
+                                    builderSystem.kickMember(playerUUID, args[2]);
+                                player.sendMessage(t.t("BuilderTeam.Kick", playerUUID));
+                                break;
+                            case "addmanager":
+                                builderSystem.promoteMember(playerUUID, args[1]);
+                                player.sendMessage(t.t("BuilderTeam.addManager", playerUUID));
+                                break;
+                            case "add":
+                                if(player.hasPermission("BuilderTeam.add"))
+                                    builderSystem.addMember(playerUUID, args[1]);
+                                player.sendMessage(t.t("BuilderTeam.add", playerUUID));
+                                break;
 
-                        case "Invite":
-                            break;
+                            case "Invite":
+                                break;
+                        }
                     }
-
-            }
+                }else
+                    player.sendMessage(t.t("allgemein.NoPermission", playerUUID));
+            }else
+                System.out.println("You´r not a Player  XD");
             return false;
-        }
+        }else
+            player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
         return false;
     }
 
@@ -103,14 +133,16 @@ public class Team implements CommandExecutor,TabCompleter {
 //        Set<String> keys = teams.keySet();
 //        for (String key: keys) {
         String key = "test";
-            teamlistofplayer.add(key);
+        teamlistofplayer.add(key);
 //        }
         List<String> playerNames = new ArrayList<>();
         Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
         Bukkit.getServer().getOnlinePlayers().toArray(players);
-//        Object[] players = iPlayerManager.getOnlinePlayers().toArray();
-        for (int i = 0; i < players.length; i++) {
-            playerNames.add(players[i].toString());}
+
+//        iPlayerManager.getOnlinePlayers().toArray();
+        for (Player value : players) {
+            playerNames.add(value.getName());
+        }
 
         if (args.length == 1) {
             List<String> arguments = new ArrayList<>();
@@ -124,73 +156,80 @@ public class Team implements CommandExecutor,TabCompleter {
 
             return arguments;
         }else
-        switch (args[1].toLowerCase(Locale.ROOT)) {
-            case "create":
-                if (args.length == 3) {
-                    List<String> createname = new ArrayList<>();
-                    createname.add("<" + t.t(playerUUID, "BuilderTeam.Create.TeamName" + ">"));
-                    return createname;
-                } else if (args.length == 4) {
-                    List<String> createDescription = new ArrayList<>();
-                    createDescription.add("<" + t.t(playerUUID, "BuilderTeam.Create.Description" + ">"));
-                    return createDescription;
-                }
-                break;
-            case "Edit":
-                if (args.length == 3) {
-                    switch (args[1].toLowerCase(Locale.ROOT)) {
-                        case "name":
-                            if (args.length == 4) {
-                                return teamlistofplayer;
-                            } else if (args.length == 5) {
-                                List<String> createnewname = new ArrayList<>();
-                                createnewname.add("<" + t.t(playerUUID, "BuilderTeam.Create.newTeamName" + ">"));
-                                return createnewname;
-                            }
+            switch (args[0].toLowerCase()) {
+                case "create":
+                    if (args.length == 2) {
+                        List<String> createname = new ArrayList<>();
+                        createname.add("<" + t.t( "BuilderTeam.Create.TabTeamName" + ">" , playerUUID));
+                        return createname;
+                    } else if (args.length == 3) {
+                        List<String> createDescription = new ArrayList<>();
+                        createDescription.add("<" + t.t("BuilderTeam.Create.TabDescription" + ">" , playerUUID));
+                        return createDescription;
+                    }
+                    break;
+                case "Edit":
+                    if (args.length == 2) {
+                        switch (args[0].toLowerCase()) {
+                            case "name":
+                                if (args.length == 3) {
+                                    return teamlistofplayer;
+                                } else if (args.length == 4) {
+                                    List<String> createnewname = new ArrayList<>();
+                                    createnewname.add("<" + t.t( "BuilderTeam.Edit.TabNewTeamName" + ">" , playerUUID));
+                                    return createnewname;
+                                }
                                 break;
-                        case "description":
-                                    if (args.length == 4) {
-                                        return teamlistofplayer;
-                                    }else
-                                        if(args.length == 5){
-                                        List<String> description = new ArrayList<>();
-                                        description.add("<" + t.t(playerUUID, "BuilderTeam.Create.Description" + ">"));
-                                        return description;
-                                    }
-                            }            break;
+                            case "description":
+                                if (args.length == 3) {
+                                    return teamlistofplayer;
+                                }else
+                                if(args.length == 4){
+                                    List<String> description = new ArrayList<>();
+                                    description.add("<" + t.t("BuilderTeam.Edit.TabNewDescription" + ">" , playerUUID));
+                                    return description;
+                                }
+                        }            break;
 
 
                     }
                     break;
 
 
-            case "leave":
-                if (args.length == 3){
-                    return teamlistofplayer;}
-                 break;
-            case "kick":
-            case "addManager":
-            case "add":
-                if (args.length == 3) {
+                case "leave":
+                    if (args.length == 2){
+                        return teamlistofplayer;}
+                    break;
+                case "kick":
+                case "addManager":
+                case "add":
+                    if (args.length == 2) {
                         return playerNames;
                     }else
-                if(args.length == 4){
-                    return teamlistofplayer;}
-                break;
-            case "invite":
-                if (args.length ==3){
-                    return playerNames;
+                    if(args.length == 3){
+                        return teamlistofplayer;}
+                    break;
+                case "invite":
+                    if (args.length == 2){
+                        return playerNames;
+                    }
+
+
             }
+        return null;
+    }
 
-
-                }
-                return null;
+    private String getDescription(String[] args,int at) {
+        FileConfiguration config = getConfig();
+        StringBuilder res = new StringBuilder();
+        int maxwords = config.getInt("Teams.create.MaxWorld");
+        for (int i = at; i < args.length; i++) {
+            if (args.length >= at + maxwords)
+                res.append(args[i]).append(" ");
         }
-
-
+        String Desc = res.toString();
+        return res.toString();
+    }
 
 }
-
-
-
 
