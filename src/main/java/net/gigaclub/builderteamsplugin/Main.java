@@ -92,15 +92,26 @@ public final class Main extends JavaPlugin {
     public static void registerTranslations() {
         System.out.println("test");
         Main.translation.registerTranslations(Arrays.asList(
-                "BuilderTeam.ToLessArguments",
-                "BuilderTeam.Create.TeamName",
-                "BuilderTeam.Create.TabDescription",
-                "BuilderTeam.Create.TabTeamName",
-                "BuilderTeam.Create.Description",
-                "BuilderTeam.Edit.newTeamName",
-                "BuilderTeam.Edit.newDescription",
-                "BuilderTeam.Edit.TabNewTeamName",
-                "BuilderTeam.Edit.TabNewDescription"
+                "builder_team.ToLessArguments",
+                "builder_team.wrong_arguments",
+
+                "builder_team.create.only_name",
+                "builder_team.Create.name_desc",
+
+                "builder_team.edit.name",
+                "builder_team.edit.description",
+
+                "builder_team.leave",
+                "builder_team.kick",
+                "builder_team.add_manager",
+                "builder_team.add",
+                "builder_team.no_permission",
+
+                "builder_team.create.tab_teamname",
+                "builder_team.create.tab_description",
+
+                "builder_team.edit.tab_teamname",
+                "builder_team.edit.tab_description"
         ));
     }
 }

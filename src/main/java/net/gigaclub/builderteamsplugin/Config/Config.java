@@ -14,7 +14,7 @@ public class Config {
     private static File configFile;
     private static FileConfiguration config;
 
-    public static FileConfiguration getConfig(String s) {
+    public static FileConfiguration getConfig() {
         return Config.config;
     }
 
