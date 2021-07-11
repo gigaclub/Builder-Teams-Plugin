@@ -1,7 +1,8 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     java
-    id("com.github.johnrengelman.shadow") version "7.0.0" apply false
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "net.gigaclub"
@@ -62,8 +63,8 @@ repositories {
 }
 
 dependencies {
-    implementation("net.gigaclub:translationapi:14.0.1.0.3")
     implementation("net.gigaclub:buildersystemapi:14.0.1.0.0")
+    implementation("net.gigaclub:translationapi:14.0.1.0.3")
     implementation("de.dytanic.cloudnet:cloudnet-bridge:3.4.0-SNAPSHOT")
     implementation("de.dytanic.cloudnet:cloudnet-driver:3.4.0-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
@@ -77,5 +78,9 @@ tasks {
             filter(ReplaceTokens::class, mapOf("tokens" to tokens))
             duplicatesStrategy = DuplicatesStrategy.INCLUDE
         }
+    }
+
+    build {
+        dependsOn(shadowJar)
     }
 }

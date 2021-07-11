@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 public class InviteListener implements Listener {

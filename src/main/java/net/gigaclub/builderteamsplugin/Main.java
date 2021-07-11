@@ -101,8 +101,6 @@ public final class Main extends JavaPlugin {
                 "BuilderTeam.Edit.newDescription",
                 "BuilderTeam.Edit.TabNewTeamName",
                 "BuilderTeam.Edit.TabNewDescription"
-
-
         ));
     }
 }

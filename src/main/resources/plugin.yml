@@ -6,8 +6,6 @@ authors: [Feier68]
 prefix: Builder Teams
 description: Builder-Teams-Plugin
 depend:
-  - Builder_System_Plugin
-  - Translation
   - CloudNet-Bridge
 website: Gigaclub.net
 

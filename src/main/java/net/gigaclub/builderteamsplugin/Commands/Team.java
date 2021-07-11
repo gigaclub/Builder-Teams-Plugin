@@ -116,7 +116,7 @@ public class Team implements CommandExecutor,TabCompleter {
                 System.out.println("You´r not a Player  XD");
             return false;
         }else
-            player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
+          player.sendMessage(t.t("BuilderTeam.ToLessArguments", playerUUID));
         return false;
     }
 
@@ -195,7 +195,6 @@ public class Team implements CommandExecutor,TabCompleter {
                     }
                     break;
 
-
                 case "leave":
                     if (args.length == 2){
                         return teamlistofplayer;}
@@ -214,7 +213,6 @@ public class Team implements CommandExecutor,TabCompleter {
                         return playerNames;
                     }
 
-
             }
         return null;
     }
@@ -232,4 +230,3 @@ public class Team implements CommandExecutor,TabCompleter {
     }
 
 }
-
