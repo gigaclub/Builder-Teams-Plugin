@@ -1,6 +1,8 @@
 package net.gigaclub.builderteamsplugin;
 
 import net.gigaclub.buildersystem.BuilderSystem;
+import net.gigaclub.builderteamsplugin.Andere.InviteAcceptCommand;
+import net.gigaclub.builderteamsplugin.Andere.InviteDenyCommand;
 import net.gigaclub.builderteamsplugin.Commands.Team;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
@@ -26,7 +28,8 @@ public final class Main extends JavaPlugin {
         team = new Team();
         getCommand("teams").setExecutor( team);
         getCommand("teams").setTabCompleter(team);
-
+        getCommand("accept").setExecutor(new InviteAcceptCommand());
+        getCommand("teams").setExecutor(new InviteDenyCommand());
         setConfig();
         FileConfiguration config = getConfig();
 
