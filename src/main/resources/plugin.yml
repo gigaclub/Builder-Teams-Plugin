@@ -13,3 +13,7 @@ website: Gigaclub.net
 commands:
   teams:
     description: command zum ertellen von teams und verwalten von teams
+  accept:
+    description: command zum invites annehmen
+  deny:
+    description: command zum invites abzulehnen

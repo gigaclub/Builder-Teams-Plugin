@@ -7,8 +7,11 @@ import net.gigaclub.builderteamsplugin.Commands.Team;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
 import net.gigaclub.builderteamsplugin.Config.OdooConfig;
+import net.gigaclub.builderteamsplugin.listener.InviteAcceptListener;
 import net.gigaclub.translation.Translation;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -29,11 +32,12 @@ public final class Main extends JavaPlugin {
         getCommand("teams").setExecutor( team);
         getCommand("teams").setTabCompleter(team);
         getCommand("accept").setExecutor(new InviteAcceptCommand());
-        getCommand("teams").setExecutor(new InviteDenyCommand());
+        getCommand("deny").setExecutor(new InviteDenyCommand());
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new InviteAcceptListener(), this);
         setConfig();
         FileConfiguration config = getConfig();
-
-
 
 
         setTranslation(new Translation(
@@ -56,7 +60,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        System.out.println("BB");
     }
 
     public static Translation getTranslation() {

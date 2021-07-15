@@ -175,17 +175,19 @@ public class Team implements CommandExecutor, TabCompleter {
                             break;
                         }
                         break;
-                    case "Invite":
-                        Player checkPlayer = Bukkit.getPlayer(args[0]);
-                        if(!args[0].equals(player.getName())) {
+                    case "invite":
+                        List<String> senderplayer = Collections.singletonList(builderSystem.getTeamNameByMember(playerUUID).get("name"));
+                         Player checkPlayer = Bukkit.getPlayer(args[1]);
+
+                        if(!args[1].equals(player.getName())) {
                             if (checkPlayer != null && checkPlayer.isOnline()) {
-                                if (!InviteAcceptListener.isTradeRequest(player.getUniqueId().toString(), checkPlayer.getUniqueId().toString()) && !InviteAcceptListener.isTradeRequest(checkPlayer.getUniqueId().toString(), player.getUniqueId().toString())) {
-                                    InviteAcceptListener.addTradeRequest(player.getUniqueId().toString(), checkPlayer.getUniqueId().toString());
+                                if (!InviteAcceptListener.isTradeRequest(senderplayer.get(0), checkPlayer.getUniqueId().toString()) && !InviteAcceptListener.isTradeRequest(checkPlayer.getUniqueId().toString(), senderplayer.get(0))) {
+                                    InviteAcceptListener.addTradeRequest(senderplayer.get(0), checkPlayer.getUniqueId().toString());
 
                                     sender.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.send-request", playerUUID)), checkPlayer.getName()));
 
                                     checkPlayer.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.new-invite-request", playerUUID)), player.getName()));
-                                } else if(InviteAcceptListener.isTradeRequest(checkPlayer.getUniqueId().toString(), player.getUniqueId().toString())) {
+                                } else if(InviteAcceptListener.isTradeRequest(checkPlayer.getUniqueId().toString(), senderplayer.get(0))) {
                                     sender.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.you-have-already-a-request", playerUUID)), checkPlayer.getName()));
                                 } else {
                                     sender.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.request-sended-earlier", playerUUID)), checkPlayer.getName()));
@@ -194,7 +196,7 @@ public class Team implements CommandExecutor, TabCompleter {
                                 if (checkPlayer != null) {
                                     sender.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.player-is-not-online", playerUUID)), checkPlayer.getName()));
                                 } else {
-                                    sender.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.player-does-not-exist", playerUUID)), args[0]));
+                                    sender.sendMessage(String.format(Objects.requireNonNull(t.t("builder_team.invite.player-does-not-exist", playerUUID)), args[1]));
                                 }
                             }
                         } else {

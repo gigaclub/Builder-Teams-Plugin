@@ -26,7 +26,7 @@ public class InviteDenyCommand implements CommandExecutor {
 
         if(sender instanceof Player) {
 
-            if(sender.hasPermission("trade.deny")) {
+
                 if(args.length == 1) {
                     Player checkPlayer = Bukkit.getPlayer(args[0]);
                     if(checkPlayer != null && checkPlayer.isOnline()) {
@@ -47,9 +47,7 @@ public class InviteDenyCommand implements CommandExecutor {
                 } else {
                     sender.sendMessage(Objects.requireNonNull(t.t("builder_team.wrong_arguments", playerUUID)));
                 }
-            } else {
-                sender.sendMessage(Objects.requireNonNull(t.t("builder_team.no_permission", playerUUID)));
-            }
+
         } else {
             sender.sendMessage(Objects.requireNonNull(t.t("builder_team.tradeDeny-no-player", playerUUID)));
         }
