@@ -29,8 +29,8 @@ public final class Main extends JavaPlugin {
 
         Team team;
         team = new Team();
-        getCommand("teams").setExecutor( team);
-        getCommand("teams").setTabCompleter(team);
+        getCommand("gcteams").setExecutor( team);
+        getCommand("gcteams").setTabCompleter(team);
         getCommand("accept").setExecutor(new InviteAcceptCommand());
         getCommand("deny").setExecutor(new InviteDenyCommand());
 

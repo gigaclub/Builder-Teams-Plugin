@@ -163,7 +163,7 @@ public class Team implements CommandExecutor, TabCompleter {
                         break;
                     case "add":
                         String p2 = Objects.requireNonNull(Bukkit.getPlayer(args[1])).getUniqueId().toString();
-                        if (player.hasPermission("BuilderTeam.add")) {
+                        if (player.hasPermission("builderteam.team.add")) {
                             int status3 = builderSystem.addMember(playerUUID, p2);
                             switch (status3) {
                                 case 0 -> player.sendMessage(t.t("builder_team.add_success", playerUUID));

@@ -54,23 +54,16 @@ public class InviteAcceptCommand implements CommandExecutor {
     }
 
     private String GetInvitePlayer(String playerUUID) {
-
-        System.out.println(1);
         List<String> playerNames = new ArrayList<>();
         Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
 
-
         Bukkit.getServer().getOnlinePlayers().toArray(players);
-        System.out.println(playerUUID);
-        System.out.println(2.5);
 //        iPlayerManager.getOnlinePlayers().toArray();
         for (Player value : players){
             Player player2 = Bukkit.getPlayer(value.getName());
             assert player2 != null;
             String InviteerplayerUuid = player2.getUniqueId().toString();
-
-
-            System.out.println(2);
+            
             if (InviteAcceptListener.isTradeRequest(InviteerplayerUuid, playerUUID) && InviteAcceptListener.isTradeRequest(playerUUID, InviteerplayerUuid)){
                 System.out.println(InviteerplayerUuid);
                 System.out.println(playerUUID);
