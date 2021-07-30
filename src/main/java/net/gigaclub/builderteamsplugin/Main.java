@@ -1,17 +1,13 @@
 package net.gigaclub.builderteamsplugin;
 
 import net.gigaclub.buildersystem.BuilderSystem;
-import net.gigaclub.builderteamsplugin.Andere.InviteAcceptCommand;
-import net.gigaclub.builderteamsplugin.Andere.InviteDenyCommand;
+import net.gigaclub.builderteamsplugin.Commands.Tasks;
 import net.gigaclub.builderteamsplugin.Commands.Team;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
 import net.gigaclub.builderteamsplugin.Config.OdooConfig;
-import net.gigaclub.builderteamsplugin.listener.InviteAcceptListener;
 import net.gigaclub.translation.Translation;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -27,15 +23,13 @@ public final class Main extends JavaPlugin {
         plugin = this;
         setPlugin(this);
 
-        Team team;
-        team = new Team();
-        getCommand("gcteams").setExecutor( team);
-        getCommand("gcteams").setTabCompleter(team);
-        getCommand("accept").setExecutor(new InviteAcceptCommand());
-        getCommand("deny").setExecutor(new InviteDenyCommand());
+        getCommand("gcteams").setExecutor(new Team(plugin));
+        getCommand("gcteams").setTabCompleter(new Team(plugin));
 
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new InviteAcceptListener(), this);
+        getCommand("gctask").setExecutor(new Tasks());
+        getCommand("gctask").setTabCompleter(new Tasks());
+
+
         setConfig();
         FileConfiguration config = getConfig();
 

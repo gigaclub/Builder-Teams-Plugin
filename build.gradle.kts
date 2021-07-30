@@ -63,7 +63,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.gigaclub:buildersystemapi:14.0.1.0.0")
+    implementation("net.gigaclub:buildersystemapi:14.0.1.0.4")
     implementation("net.gigaclub:translationapi:14.0.1.0.3")
     implementation("de.dytanic.cloudnet:cloudnet-bridge:3.4.0-SNAPSHOT")
     implementation("de.dytanic.cloudnet:cloudnet-driver:3.4.0-SNAPSHOT")

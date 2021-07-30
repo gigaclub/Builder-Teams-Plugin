@@ -3,6 +3,7 @@ package net.gigaclub.builderteamsplugin.Commands;
 import net.gigaclub.buildersystem.BuilderSystem;
 import net.gigaclub.builderteamsplugin.Main;
 import net.gigaclub.translation.Translation;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static net.gigaclub.builderteamsplugin.Config.Config.getConfig;
@@ -56,11 +59,26 @@ public class Tasks implements CommandExecutor, TabCompleter {
                             }else if(args.length == 2){
                               //  confirm bestätigung
 
-                                builderSystem.removeTask();
+                              //  builderSystem.removeTask();
                             }
 
                         }
+                    case "list":
+                        List<String> tasklistofplayer = new ArrayList<>();
+                        for (Object o : builderSystem.getAllTasks()) {
+                            HashMap m = (HashMap) o;
+                            System.out.printf(builderSystem.getAllTasks().toString());
+                            player.sendMessage("");
+                            player.sendMessage(ChatColor.GRAY+"ID: "+m.get("id").toString() );
+                            player.sendMessage(ChatColor.GRAY+"Name: "+m.get("name").toString() );
+                            player.sendMessage(ChatColor.GRAY+"Description: "+m.get("description").toString() );
+                            player.sendMessage(ChatColor.GRAY+"Build Size: "+m.get("build_width").toString()+"X"+m.get("build_length").toString() );
+                            player.sendMessage(ChatColor.GRAY+"World: " );
+                            player.sendMessage("");
+                            player.sendMessage(ChatColor.BOLD.toString()+"----------------------------------");
 
+
+                        }
                 }
             }
         }
@@ -73,6 +91,18 @@ public class Tasks implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 
 
+        if (args.length == 1) {
+            List<String> arguments = new ArrayList<>();
+            arguments.add("List");
+            arguments.add("Create");
+            arguments.add("Remove");
+
+            return arguments;
+        }
+
+
+
+
         return null;
     }
 
@@ -80,6 +110,11 @@ public class Tasks implements CommandExecutor, TabCompleter {
     private String getDescription(String[] args, int at) {
         FileConfiguration config = getConfig();
         StringBuilder res = new StringBuilder();
+
+
+
+
+
 
         int maxwords = config.getInt("Teams.create.MaxWorld");
 

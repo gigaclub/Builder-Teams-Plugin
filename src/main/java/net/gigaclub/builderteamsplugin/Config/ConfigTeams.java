@@ -9,6 +9,7 @@ public class ConfigTeams {
         FileConfiguration config = Config.getConfig();
 
         config.addDefault("Teams.create.MaxWorld", 25);
+        config.addDefault("Teams.invite.Timersek",15);
 
 
         Config.save();

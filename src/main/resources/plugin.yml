@@ -13,8 +13,8 @@ website: Gigaclub.net
 commands:
   gcteams:
     description: command zum ertellen von teams und verwalten von teams
-    permission: builderteam.team.add
-    aliases: Teams
+  gctask:
+    description: command zum erstellen von task
   accept:
     description: command zum invites annehmen
   deny:
