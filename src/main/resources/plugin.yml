@@ -1,4 +1,4 @@
-name: Builder_system_Plugin
+name: Builder_Teams_Plugin
 version: @version@
 main: net.gigaclub.builderteamsplugin.Main
 api-version: 1.16

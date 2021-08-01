@@ -119,8 +119,9 @@ public class Worlds implements CommandExecutor, TabCompleter {
         }else
         if(args.length == 2){
             switch (args[0].toLowerCase()) {
-                case "createasteam":
-                case "createasuser":
+
+                case "createasteam","createasuser":
+
                 if(args.length == 3){
                     List<String> createname = new ArrayList<>();
                     createname.add("<" + t.t("builder_team.tab_task_id", playerUUID) + ">");
@@ -135,7 +136,6 @@ public class Worlds implements CommandExecutor, TabCompleter {
                         HashMap m = (HashMap) o;
                         String worldTyp = (String) m.get("name");
                         createname.add(worldTyp);
-
                     }
                     return  createname;
                 }break;

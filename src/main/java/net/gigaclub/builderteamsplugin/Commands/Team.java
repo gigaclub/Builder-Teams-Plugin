@@ -246,7 +246,7 @@ public class Team implements CommandExecutor, TabCompleter {
         String playerUUID = player.getUniqueId().toString();
         Translation t = Main.getTranslation();
         BuilderSystem builderSystem = Main.getBuilderSystem();
-//        IPlayerManager iPlayerManager = (IPlayerManager) player;
+
 
         List<String> teamlistofplayer = new ArrayList<>();
         for (Object o : builderSystem.getAllTeams()) {
@@ -256,8 +256,6 @@ public class Team implements CommandExecutor, TabCompleter {
         List<String> playerNames = new ArrayList<>();
         Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
         Bukkit.getServer().getOnlinePlayers().toArray(players);
-
-//        iPlayerManager.getOnlinePlayers().toArray();
         for (Player value : players) {
             playerNames.add(value.getName());
         }
@@ -338,8 +336,7 @@ public class Team implements CommandExecutor, TabCompleter {
                     break;
 
 
-                case "kick":
-                case "addManager":
+                case "kick","addManager":
 
                     List<String> team = Collections.singletonList(builderSystem.getTeamNameByMember(playerUUID).get("name"));
                     HashMap m = (HashMap) builderSystem.getTeam(team.get(0));
