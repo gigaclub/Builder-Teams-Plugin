@@ -3,6 +3,7 @@ package net.gigaclub.builderteamsplugin;
 import net.gigaclub.buildersystem.BuilderSystem;
 import net.gigaclub.builderteamsplugin.Commands.Tasks;
 import net.gigaclub.builderteamsplugin.Commands.Team;
+import net.gigaclub.builderteamsplugin.Commands.Worlds;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
 import net.gigaclub.builderteamsplugin.Config.OdooConfig;
@@ -29,6 +30,8 @@ public final class Main extends JavaPlugin {
         getCommand("gctask").setExecutor(new Tasks());
         getCommand("gctask").setTabCompleter(new Tasks());
 
+        getCommand("gcworld").setExecutor(new Worlds());
+        getCommand("gcworld").setTabCompleter(new Worlds());
 
         setConfig();
         FileConfiguration config = getConfig();
@@ -63,12 +66,15 @@ public final class Main extends JavaPlugin {
     public static void setTranslation(Translation translation) {
         Main.translation = translation;
     }
+
     public static BuilderSystem getBuilderSystem() {
         return Main.builderSystem;
     }
     public static void setBuilderSystem(BuilderSystem builderSystem) {
         Main.builderSystem = builderSystem;
     }
+
+
 
     private void setConfig() {
         Config.createConfig();
@@ -94,6 +100,7 @@ public final class Main extends JavaPlugin {
         Main.translation.registerTranslations(Arrays.asList(
                 "builder_team.ToLessArguments",
                 "builder_team.wrong_arguments",
+                "BuilderSystem.toomany_Arguments",
 
                 "builder_team.create.only_name",
                 "builder_team.Create.name_desc",
@@ -111,8 +118,16 @@ public final class Main extends JavaPlugin {
                 "builder_team.create.tab_description",
 
                 "builder_team.edit.tab_teamname",
-                "builder_team.edit.tab_description"
+                "builder_team.edit.tab_description",
 
+                "builder_team.task.remove_succses",
+                "builder_team.task.create.tab_task_name",
+                "builder_team.task.create.tab_task_x_size",
+                "builder_team.task.create.tab_task_y_size",
+                "builder_team.task_id",
+
+                "builder_team.tab_task_id",
+                "builder_team.world.tab_world_name"
 
 //      status msg´s
 

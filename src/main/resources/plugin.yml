@@ -1,5 +1,5 @@
-name: Builder_Teams_Plugin
-version: ${project.version}
+name: Builder_system_Plugin
+version: @version@
 main: net.gigaclub.builderteamsplugin.Main
 api-version: 1.16
 authors: [Feier68]
@@ -12,10 +12,9 @@ website: Gigaclub.net
 
 commands:
   gcteams:
-    description: command zum ertellen von teams und verwalten von teams
+    description: command zum verwalten von teams
   gctask:
-    description: command zum erstellen von task
-  accept:
-    description: command zum invites annehmen
-  deny:
-    description: command zum invites abzulehnen
+    description: command zum verwalten von task
+  gcworld:
+    description: command zum verwalten von welten
+

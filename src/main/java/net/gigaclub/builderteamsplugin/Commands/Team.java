@@ -132,7 +132,6 @@ public class Team implements CommandExecutor, TabCompleter {
                             return false;
                         } else if (args.length == 2) {
                             String p = Objects.requireNonNull(Bukkit.getPlayer(args[1])).getUniqueId().toString();
-
                             int status2 = builderSystem.kickMember(playerUUID, p);
                             switch (status2) {
                                 case 0 -> player.sendMessage(ChatColor.GREEN.toString() + t.t("builder_team.kick_user_success", playerUUID));
@@ -141,10 +140,9 @@ public class Team implements CommandExecutor, TabCompleter {
                                 case 3 -> player.sendMessage(ChatColor.RED.toString() + t.t("builder_team.team_does_not_exist", playerUUID));
                                 case 4 -> player.sendMessage(ChatColor.RED.toString() + t.t("builder_team.other_error", playerUUID));
                             }
-                            player.sendMessage(ChatColor.DARK_RED.toString() + t.t("builder_team.kick", playerUUID));
-
                         }
                         break;
+
                     case "addmanager":
                         String p = Objects.requireNonNull(Bukkit.getPlayer(args[1])).getUniqueId().toString();
                         int status2 = builderSystem.promoteMember(playerUUID, p);
@@ -173,7 +171,7 @@ public class Team implements CommandExecutor, TabCompleter {
                         break;
                     case "add":
                         String p2 = Objects.requireNonNull(Bukkit.getPlayer(args[1])).getUniqueId().toString();
-                        if (player.hasPermission("builderteam.team.add")) {
+                        if (player.hasPermission("builderteam.admin")) {
                             int status3 = builderSystem.addMember(playerUUID, p2);
                             switch (status3) {
                                 case 0 -> player.sendMessage(ChatColor.GREEN.toString() + t.t("builder_team.add_success", playerUUID));
@@ -276,7 +274,7 @@ public class Team implements CommandExecutor, TabCompleter {
             arguments.add("accept");
             arguments.add("deny");
 
-            if (player.hasPermission("builderteam.team.add")) {
+            if (player.hasPermission("builderteam.admin")) {
 
                 arguments.add("add");
 

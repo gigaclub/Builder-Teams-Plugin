@@ -3,6 +3,7 @@ package net.gigaclub.builderteamsplugin.Commands;
 import net.gigaclub.buildersystem.BuilderSystem;
 import net.gigaclub.builderteamsplugin.Main;
 import net.gigaclub.translation.Translation;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +27,7 @@ public class Tasks implements CommandExecutor, TabCompleter {
         String playerUUID = player.getUniqueId().toString();
         Translation t = Main.getTranslation();
         BuilderSystem builderSystem = Main.getBuilderSystem();
+        FileConfiguration config = getConfig();
 
         if (player instanceof Player) {
 
@@ -34,51 +36,60 @@ public class Tasks implements CommandExecutor, TabCompleter {
                 switch (args[0].toLowerCase()) {
 
                     case "create":
-                        if (player.hasPermission("builderteam.task.admin")) {
-                            if (args.length == 1) { //bei zusatz Baugrösse im 1 erhöhen
+                        if (player.hasPermission("builderteam.admin")) {
+                            if (args.length == 1) {
                                 player.sendMessage(t.t("builder_team.to_less_arguments", playerUUID));
                                 return false;
-                            } else if (args.length == 2) { //bei zusatz Baugrösse im 1 erhöhen
-                               // nur name
-                                builderSystem.createTask(args[1]);  // später Baugrösse Verplichtend
-                            }else if(args.length == 3){  //bei zusatz Baugrösse im 1 erhöhen
-                                // name und welt typ
-                                builderSystem.createTask(args[1],args[2]);// später Baugrösse Verplichtend
-                            }else if(args.length >= 4){
-                                //name,welt typ und beschreibung
-                                builderSystem.createTask(args[1],getDescription(args,4));  // später Baugrösse Verplichtend
+
+                            } else if (args.length == 2) {
+                                // nur name
+                                builderSystem.createTask(args[1],"false",config.getInt("Teams.task.Create.x"),config.getInt("Teams.task.Create.x"));
+
+                            } else if (args.length >= 3) {
+
+                                builderSystem.createTask(args[1],getDescription(args,4),Integer.parseInt(args[2]),Integer.parseInt(args[3]));// später Baugrösse Verplichtend
+
                             }
 
                         }
                         break;
                     case "remove":
-                        if (player.hasPermission("builderteam.task.admin")){
-                            if (args.length == 1){
+                        if (player.hasPermission("builderteam.admin")) {
+                            if (args.length == 1) {
                                 player.sendMessage(t.t("builder_team.to_less_arguments", playerUUID));
                                 return false;
-                            }else if(args.length == 2){
-                              //  confirm bestätigung
 
-                              //  builderSystem.removeTask();
+                            } else if (args.length == 2) {
+                                if (isInt(args[1]) == true) {
+
+                                    int i = Integer.parseInt(args[1]);
+                                    builderSystem.removeTask(i);
+                                    player.sendMessage(t.t("builder_team.task.remove_succses", playerUUID));
+
+                                }else player.sendMessage(t.t("builder_team.wrong_arguments", playerUUID));
                             }
-
+                            break;
                         }
                     case "list":
                         List<String> tasklistofplayer = new ArrayList<>();
                         for (Object o : builderSystem.getAllTasks()) {
                             HashMap m = (HashMap) o;
-                            System.out.printf(builderSystem.getAllTasks().toString());
-                            player.sendMessage("");
-                            player.sendMessage(ChatColor.GRAY+"ID: "+m.get("id").toString() );
-                            player.sendMessage(ChatColor.GRAY+"Name: "+m.get("name").toString() );
-                            player.sendMessage(ChatColor.GRAY+"Description: "+m.get("description").toString() );
-                            player.sendMessage(ChatColor.GRAY+"Build Size: "+m.get("build_width").toString()+"X"+m.get("build_length").toString() );
-                            player.sendMessage(ChatColor.GRAY+"World: " );
-                            player.sendMessage("");
-                            player.sendMessage(ChatColor.BOLD.toString()+"----------------------------------");
+                            player.sendMessage(ChatColor.GRAY + "ID: " + ChatColor.WHITE + m.get("id").toString());
+                            player.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.WHITE + m.get("name").toString());
+                            if (m.get("description").toString() != "false") player.sendMessage(ChatColor.GRAY + "Description: " + ChatColor.WHITE + m.get("description").toString());
+                            player.sendMessage(ChatColor.GRAY + "Build Size: " + ChatColor.WHITE + m.get("build_width").toString() + " x " + m.get("build_length").toString());
+     /*                       List<String> Worldid of = new ArrayList<>();
+                            for (Object o : builderSystem.getAllTasks()) {
+                                HashMap m = (HashMap) o;
+
+
+                            }*/
+                            player.sendMessage(ChatColor.GRAY + "Worlds:  " + ChatColor.WHITE + m.get("world_ids"));
+                            player.sendMessage(ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "----------------------------------");
 
 
                         }
+                        break;
                 }
             }
         }
@@ -89,32 +100,79 @@ public class Tasks implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        Player player = (Player) sender;
+        String playerUUID = player.getUniqueId().toString();
+        Translation t = Main.getTranslation();
+        BuilderSystem builderSystem = Main.getBuilderSystem();
+
+
+        List<String> teamlistofplayer = new ArrayList<>();
+        for (Object o : builderSystem.getAllTeams()) {
+            HashMap m = (HashMap) o;
+            teamlistofplayer.add((String) m.get("name"));
+        }
+        List<String> playerNames = new ArrayList<>();
+        Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
+        Bukkit.getServer().getOnlinePlayers().toArray(players);
+
+
+        for (Player value : players) {
+            playerNames.add(value.getName());
+        }
 
 
         if (args.length == 1) {
             List<String> arguments = new ArrayList<>();
             arguments.add("List");
-            arguments.add("Create");
-            arguments.add("Remove");
+
+
+            if (player.hasPermission("builderteam.admin")) {
+
+                arguments.add("Create");
+                arguments.add("Remove");
+
+            }
 
             return arguments;
-        }
+
+        } else
+
+            switch (args[0].toLowerCase()) {
+                case "create":
+                    if (args.length == 2) {
+                        List<String> createname = new ArrayList<>();
+                        createname.add("<" + t.t("builder_team.task.create.tab_task_name", playerUUID) + ">");
+                        return createname;
+                    } else if (args.length == 3) {
+                        List<String> createDescription = new ArrayList<>();
+                        createDescription.add("<" + t.t("builder_team.task.create.tab_task_x_size", playerUUID) + ">");
+                        return createDescription;
+                    } else if (args.length == 4) {
+                        List<String> createDescription = new ArrayList<>();
+                        createDescription.add("<" + t.t("builder_team.task.create.tab_task_y_size", playerUUID) + ">");
+                        return createDescription;
+                    } else if (args.length == 5) {
+                        List<String> createDescription = new ArrayList<>();
+                        createDescription.add("<" + t.t("builder_team.create.tab_description", playerUUID) + ">");
+                        return createDescription;
+                    }
+                    break;
+                case "remove":
+                    if (args.length == 2) {
+                        List<String> createname = new ArrayList<>();
+                        createname.add("<" + t.t("builder_team.tab_task_id", playerUUID) + ">");
+                        return createname;
 
 
-
-
+                    }
+                   break;
+            }
         return null;
     }
-
 
     private String getDescription(String[] args, int at) {
         FileConfiguration config = getConfig();
         StringBuilder res = new StringBuilder();
-
-
-
-
-
 
         int maxwords = config.getInt("Teams.create.MaxWorld");
 
@@ -128,5 +186,25 @@ public class Tasks implements CommandExecutor, TabCompleter {
         return res.toString();
     }
 
+    private String getWorldIds(String[] args, int at) {
+        FileConfiguration config = getConfig();
+        StringBuilder res = new StringBuilder();
+        BuilderSystem builderSystem = Main.getBuilderSystem();
+
+        List<String> tasklistofplayer = new ArrayList<>();
+        for (Object o : builderSystem.getAllWorlds()) {
+            HashMap m = (HashMap) o;
+            res.append(m.get("world_ids") + " , ");
+
+            return res.toString();
+        }
+
+
+        return "false";
+    }
+
+    private static boolean isInt(String str)
+    { try { Integer.parseInt(str); return true;
+    } catch(NumberFormatException e){ return false; } }
 
 }
