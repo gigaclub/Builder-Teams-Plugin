@@ -30,8 +30,8 @@ public final class Main extends JavaPlugin {
         getCommand("gctask").setExecutor(new Tasks());
         getCommand("gctask").setTabCompleter(new Tasks());
 
-        getCommand("gcworld").setExecutor(new Worlds());
-        getCommand("gcworld").setTabCompleter(new Worlds());
+        getCommand("gcprojekt").setExecutor(new Worlds());
+        getCommand("gcprojekt").setTabCompleter(new Worlds());
 
         setConfig();
         FileConfiguration config = getConfig();
