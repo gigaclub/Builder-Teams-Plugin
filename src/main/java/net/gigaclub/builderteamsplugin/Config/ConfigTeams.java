@@ -12,7 +12,7 @@ public class ConfigTeams {
         config.addDefault("Teams.invite.Timersek",15);
         config.addDefault("Teams.task.Create.x",2500);
         config.addDefault("Teams.task.Create.y",2500);
-
+        config.addDefault("server.server_autostart",true);
 
 
         Config.save();

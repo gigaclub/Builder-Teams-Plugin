@@ -17,17 +17,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static net.gigaclub.builderteamsplugin.Config.Config.getConfig;
 
 public class Tasks implements CommandExecutor, TabCompleter {
-    @Override
+
+   @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         String playerUUID = player.getUniqueId().toString();
         Translation t = Main.getTranslation();
         BuilderSystem builderSystem = Main.getBuilderSystem();
         FileConfiguration config = getConfig();
+
 
         if (player instanceof Player) {
 
@@ -43,11 +46,11 @@ public class Tasks implements CommandExecutor, TabCompleter {
 
                             } else if (args.length == 2) {
                                 // nur name
-                                builderSystem.createTask(args[1],"false",config.getInt("Teams.task.Create.x"),config.getInt("Teams.task.Create.x"));
+                                builderSystem.createTask(args[1], "false", config.getInt("Teams.task.Create.x"), config.getInt("Teams.task.Create.x"));
 
                             } else if (args.length >= 3) {
 
-                                builderSystem.createTask(args[1],getDescription(args,4),Integer.parseInt(args[2]),Integer.parseInt(args[3]));// später Baugrösse Verplichtend
+                                builderSystem.createTask(args[1], getDescription(args, 4), Integer.parseInt(args[2]), Integer.parseInt(args[3]));// später Baugrösse Verplichtend
 
                             }
 
@@ -66,35 +69,45 @@ public class Tasks implements CommandExecutor, TabCompleter {
                                     builderSystem.removeTask(i);
                                     player.sendMessage(t.t("builder_team.task.remove_succses", playerUUID));
 
-                                }else player.sendMessage(t.t("builder_team.wrong_arguments", playerUUID));
+                                } else player.sendMessage(t.t("builder_team.wrong_arguments", playerUUID));
                             }
                             break;
                         }
                     case "list":
-                        List<String> tasklistofplayer = new ArrayList<>();
                         for (Object o : builderSystem.getAllTasks()) {
                             HashMap m = (HashMap) o;
                             player.sendMessage(ChatColor.GRAY + "ID: " + ChatColor.WHITE + m.get("id").toString());
                             player.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.WHITE + m.get("name").toString());
-                            if (m.get("description").toString() != "false") player.sendMessage(ChatColor.GRAY + "Description: " + ChatColor.WHITE + m.get("description").toString());
+                            if (!Objects.equals(m.get("description").toString(), "false"))
+                                player.sendMessage(ChatColor.GRAY + "Description: " + ChatColor.WHITE + m.get("description").toString());
                             player.sendMessage(ChatColor.GRAY + "Build Size: " + ChatColor.WHITE + m.get("build_width").toString() + " x " + m.get("build_length").toString());
-     /*                       List<String> Worldid of = new ArrayList<>();
-                            for (Object o : builderSystem.getAllTasks()) {
-                                HashMap m = (HashMap) o;
+
+                            for (HashMap h : (HashMap[]) m.get("world_ids")) {
+                                for (Object o1 : (Object[]) builderSystem.getWorld(Integer.parseInt((String) h.get("id")))) {
+                                    HashMap m1 = (HashMap) o1;
 
 
-                            }*/
-                            player.sendMessage(ChatColor.GRAY + "Worlds:  " + ChatColor.WHITE + m.get("world_ids"));
-                            player.sendMessage(ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "----------------------------------");
+                                    StringBuilder res = new StringBuilder();
+                                    res.append(m1.get("id")).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
+                                    String strValue = "ChatColor.GRAY +";
+                                    res.append(new StringBuilder(strValue).reverse());
+                                    res.toString();
+
+                                    player.sendMessage(res.toString());
+                                }
+                                player.sendMessage(ChatColor.GRAY + "Worlds:  " + ChatColor.WHITE + m.get("world_ids"));
+                                player.sendMessage(ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "----------------------------------");
 
 
+                            }
+                            break;
                         }
-                        break;
                 }
             }
+
+
+
         }
-
-
         return false;
     }
 

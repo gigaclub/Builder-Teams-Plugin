@@ -41,6 +41,9 @@ public class Worlds implements CommandExecutor, TabCompleter {
                             boolean defaultworldtyp = (boolean) m.get("default");
 
                             if (defaultworldtyp == true) {
+                                System.out.println(Integer.parseInt(args[1]));
+                                System.out.println(args[2]);
+                                System.out.println(worldTyp);
                                 if (isInt(args[1])) {
                                     builderSystem.createWorldAsTeam(playerUUID, Integer.parseInt(args[1]), args[2], worldTyp);
 
@@ -127,25 +130,38 @@ public class Worlds implements CommandExecutor, TabCompleter {
                         HashMap m = (HashMap) o;
                         player.sendMessage(ChatColor.GRAY + "ID: " + ChatColor.WHITE + m.get("world_id").toString());
                         player.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.WHITE + m.get("name").toString());
-                        player.sendMessage(ChatColor.GRAY + "World typ:" + ChatColor.WHITE + m.get("world_type"));
+                        player.sendMessage(ChatColor.GRAY + "World typ:" + ChatColor.WHITE + m.get("world_type").toString());
+                     player.sendMessage("Teams");
+                        System.out.println((String) m.get("team_ids"));
+ /*                       for (HashMap h : (HashMap[]) m.get("team_ids")) {
 
-                        player.sendMessage(stackstringstolist(args, (Object[]) m.get("team_ids"), "name"));
-
-                        for (Object o2 : (Object[]) m.get("user_ids")) {
-                            HashMap m2 = (HashMap) o2;
-                            Player player1 = Bukkit.getPlayer(m2.get("name").toString());
+                            Player player1 = Bukkit.getPlayer(h.get("name").toString());
                             String player2 = player1.toString();
                             StringBuilder res = new StringBuilder();
-
                             res.append(player2).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
-
                             String strValue = "ChatColor.GRAY +";
                             res.append(new StringBuilder(strValue).reverse());
                             res.toString();
 
                             player.sendMessage(res.toString());
-                        }
+                            }*/
+                         player.sendMessage("User:");
 
+                        System.out.println((String) m.get("user_ids"));
+ /*                       for (HashMap h2 : (HashMap[]) m.get("user_ids")) {
+
+                            Player player11 = Bukkit.getPlayer(h2.get("name").toString());
+                            String player21 = player11.toString();
+                            StringBuilder res1 = new StringBuilder();
+                            res1.append(player21).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
+                            String strValue = "ChatColor.GRAY +";
+                            res1.append(new StringBuilder(strValue).reverse());
+                            res1.toString();
+
+                            player.sendMessage(res1.toString());
+                        } break;*/
+                        player.sendMessage(ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "----------------------------------");
+                        break;
                     }
 
             }
@@ -169,23 +185,24 @@ public class Worlds implements CommandExecutor, TabCompleter {
             arguments.add("Remove");
             arguments.add("addTeam");
             arguments.add("addUser");
+            arguments.add("List");
 
             return arguments;
 
-        } else if (args.length == 2) {
+        } else if (args.length == 1) {
             switch (args[0].toLowerCase()) {
 
                 case "createasteam", "createasuser":
 
-                    if (args.length == 3) {
+                    if (args.length == 2) {
                         List<String> createname = new ArrayList<>();
                         createname.add("<" + t.t("builder_team.tab_task_id", playerUUID) + ">");
                         return createname;
-                    } else if (args.length == 4) {
+                    } else if (args.length == 3) {
                         List<String> createname = new ArrayList<>();
                         createname.add("<" + t.t("builder_team.world.tab_world_name", playerUUID) + ">");
                         return createname;
-                    } else if (args.length == 5) {
+                    } else if (args.length == 4) {
                         List<String> createname = new ArrayList<>();
                         for (Object o : builderSystem.getAllWorldTypes()) {
                             HashMap m = (HashMap) o;
@@ -221,20 +238,6 @@ public class Worlds implements CommandExecutor, TabCompleter {
         }
     }
 
-    private String stackstringstolist(String[] args, Object[] object, String name) {
-        BuilderSystem builderSystem = Main.getBuilderSystem();
-        StringBuilder res = new StringBuilder();
-        for (Object o : object) {
-            HashMap m = (HashMap) o;
-            String name2 = m.get(name).toString();
-
-            res.append(name2).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
-        }
-
-        String strValue = "ChatColor.GRAY +";
-        res.append(new StringBuilder(strValue).reverse());
-        return res.toString();
-    }
 
 }
 
