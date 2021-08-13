@@ -7,8 +7,11 @@ import net.gigaclub.builderteamsplugin.Commands.Worlds;
 import net.gigaclub.builderteamsplugin.Config.Config;
 import net.gigaclub.builderteamsplugin.Config.ConfigTeams;
 import net.gigaclub.builderteamsplugin.Config.OdooConfig;
+import net.gigaclub.builderteamsplugin.listener.joinlistener;
 import net.gigaclub.translation.Translation;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
@@ -52,12 +55,15 @@ public final class Main extends JavaPlugin {
         ));
 
         registerTranslations();
+
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new joinlistener(), this);
     }
 
 
     @Override
     public void onDisable() {
-        System.out.println("BB");
+        System.out.println(" BB");
     }
 
     public static Translation getTranslation() {
@@ -127,7 +133,13 @@ public final class Main extends JavaPlugin {
                 "builder_team.task_id",
 
                 "builder_team.tab_task_id",
-                "builder_team.world.tab_world_name"
+
+                "builder_team.world.tab_world_name",
+                "BuilderSystem.world.id_list",
+                "BuilderSystem.world.name_list",
+                "BuilderSystem.world.world_typ_list",
+                "BuilderSystem.world.team_list",
+                "BuilderSystem.world.user_list"
 
 //      status msg´s
 

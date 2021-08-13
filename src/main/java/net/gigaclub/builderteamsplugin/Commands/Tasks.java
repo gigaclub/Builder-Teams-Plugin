@@ -82,13 +82,14 @@ public class Tasks implements CommandExecutor, TabCompleter {
                                 player.sendMessage(ChatColor.GRAY + "Description: " + ChatColor.WHITE + m.get("description").toString());
                             player.sendMessage(ChatColor.GRAY + "Build Size: " + ChatColor.WHITE + m.get("build_width").toString() + " x " + m.get("build_length").toString());
 
-                            for (HashMap h : (HashMap[]) m.get("world_ids")) {
-                                for (Object o1 : (Object[]) builderSystem.getWorld(Integer.parseInt((String) h.get("id")))) {
+                            for (Object id : (Object[]) m.get("world_ids")) {
+                                HashMap idMap = (HashMap) id;
+                                for (Object o1 : (Object[]) builderSystem.getWorld(Integer.parseInt((String) idMap.get("id")))) {
                                     HashMap m1 = (HashMap) o1;
 
 
                                     StringBuilder res = new StringBuilder();
-                                    res.append(m1.get("id")).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
+                                    res.append(m1.get("world_id")).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
                                     String strValue = "ChatColor.GRAY +";
                                     res.append(new StringBuilder(strValue).reverse());
                                     res.toString();

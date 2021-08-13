@@ -41,7 +41,7 @@ public class joinlistener implements Listener {
             if (serviceLifeCycle == ServiceLifeCycle.RUNNING) {
 
                 if (player != null) {
-
+                    System.out.println(4);
                     List<? extends ICloudPlayer> cloudPlayers = this.playerManager.getOnlinePlayers(this.player.getName());
                     if (!cloudPlayers.isEmpty()) {
                         ICloudPlayer entry = cloudPlayers.get(0);
@@ -75,26 +75,29 @@ public class joinlistener implements Listener {
         Translation t = Main.getTranslation();
         BuilderSystem builderSystem = Main.getBuilderSystem();
         FileConfiguration config = getConfig();
-
         if (config.getBoolean("server.server_autostart")) {
             Object o = builderSystem.getTeamNameByMember(playerUUID);
             HashMap m = (HashMap) o;
             String team_name = m.get("name").toString();
+            System.out.println(1);
 
-
-                for (Object o2 : (Object[]) m.get("world_ids")) {
-                    HashMap m2 = (HashMap) o2;
-                    int word_id = Integer.parseInt(m2.get("id").toString());
+                for (Object world_id : (Object[]) m.get("world_ids")) {
+                    HashMap world_idMap = (HashMap) world_id;
+                    System.out.println(1.1);
+                    int word_id = Integer.parseInt(world_idMap.get("id").toString());
 
                     for (Object o1 : (Object[]) builderSystem.getWorld(word_id)) {
+                        System.out.println(1.2);
                         HashMap m1 = (HashMap) o1;
                         String world_name = m1.get("name").toString();
                         Integer task_id = Integer.parseInt(m1.get("task_id").toString());
                         for (Object task_o : (Object[]) builderSystem.getTask(task_id)) {
+                            System.out.println(1.3);
                             HashMap task_m = (HashMap) task_o;
                             String task_name = task_m.get("name").toString();
                             String worlds_typ = m1.get("world_type").toString();
                             //  world_name, task_name, task_id, worlds_typ, word_id, team_name
+                            System.out.println(2);
                             player.sendMessage(t.t("bsc.Command.CreateServer", playerUUID));
                             player.sendMessage(t.t("bsc.Command.Teleport", playerUUID));
                             ServiceInfoSnapshot serviceInfoSnapshot = ServiceConfiguration.builder()
@@ -111,6 +114,7 @@ public class joinlistener implements Listener {
 
 
                             if (serviceInfoSnapshot != null) {
+                                System.out.println(3);
                                 serviceInfoSnapshot.provider().start();
                                 serviceId = serviceInfoSnapshot.getServiceId().getTaskServiceId();
                             }
