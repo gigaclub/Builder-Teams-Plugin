@@ -81,22 +81,43 @@ public class Tasks implements CommandExecutor, TabCompleter {
                             if (!Objects.equals(m.get("description").toString(), "false"))
                                 player.sendMessage(ChatColor.GRAY + "Description: " + ChatColor.WHITE + m.get("description").toString());
                             player.sendMessage(ChatColor.GRAY + "Build Size: " + ChatColor.WHITE + m.get("build_width").toString() + " x " + m.get("build_length").toString());
-
+                           player.sendMessage("Teams :");
                             for (Object id : (Object[]) m.get("world_ids")) {
                                 HashMap idMap = (HashMap) id;
-                                for (Object o1 : (Object[]) builderSystem.getWorld(Integer.parseInt((String) idMap.get("id")))) {
-                                    HashMap m1 = (HashMap) o1;
+                                for (Object world_info : (Object[]) builderSystem.getWorld(Integer.parseInt((String) idMap.get("id")))) {
+                                    HashMap world_infoMap = (HashMap) world_info;
+
+                            for (Object team : (Object[]) idMap.get("team_manager_ids")) {
+                                HashMap teamMap = (HashMap) team;
 
 
-                                    StringBuilder res = new StringBuilder();
-                                    res.append(m1.get("world_id")).append(ChatColor.WHITE + " , " + ChatColor.GRAY);
-                                    String strValue = "ChatColor.GRAY +";
-                                    res.append(new StringBuilder(strValue).reverse());
-                                    res.toString();
 
-                                    player.sendMessage(res.toString());
+                                String teamname = world_infoMap.get("name").toString();
+                                StringBuilder res = new StringBuilder();
+                                res.append(ChatColor.GRAY +"");
+                                res.append(teamname).append(""+ChatColor.WHITE + " , " + ChatColor.GRAY +"" );
+
+                                res.toString();
+
+                                player.sendMessage(res.toString());
+                            }
+
+                            player.sendMessage("World Names:");
+
+//                                    for (Object world : (Object[]) world_infoMap.get("world_id")) {
+//                                        HashMap worldMap = (HashMap) world;
+
+                                        String worldname = world_infoMap.get("name").toString();
+                                        StringBuilder res = new StringBuilder();
+                                        res.append(ChatColor.GRAY + "");
+                                        res.append(worldname).append("" + ChatColor.WHITE + " , " + ChatColor.GRAY + "");
+
+                                        res.toString();
+
+                                        player.sendMessage(res.toString());
+//                                    }
                                 }
-                                player.sendMessage(ChatColor.GRAY + "Worlds:  " + ChatColor.WHITE + m.get("world_ids"));
+
                                 player.sendMessage(ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "----------------------------------");
 
 

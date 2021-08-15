@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Worlds implements CommandExecutor, TabCompleter {
 
@@ -26,7 +27,7 @@ public class Worlds implements CommandExecutor, TabCompleter {
         Translation t = Main.getTranslation();
         BuilderSystem builderSystem = Main.getBuilderSystem();
 
-        String ownteamname = builderSystem.getTeamNameByMember(playerUUID).get("name");
+
 
         if (sender instanceof Player) {
 
@@ -34,6 +35,9 @@ public class Worlds implements CommandExecutor, TabCompleter {
 
 
                 case "createasteam":
+                    String ownteamname = builderSystem.getTeamNameByMember(playerUUID).get("name");
+                    if (ownteamname == "false"){ System.out.println("no team 1"); return false;}
+                    if (ownteamname == ""){ System.out.println("no team 2"); return false;}
                     if (args.length == 3) {
                         for (Object o : builderSystem.getAllWorldTypes()) {
                             HashMap m = (HashMap) o;
@@ -97,9 +101,9 @@ public class Worlds implements CommandExecutor, TabCompleter {
                         return false;
                     }
                 case "remove":
-
+                    String ownteamname3 = builderSystem.getTeamNameByMember(playerUUID).get("name");
                     System.out.println("GetTeam ? " + builderSystem.getTeam(args[1]));
-                    if (!(ownteamname.equalsIgnoreCase(args[1]))) {
+                    if (!(ownteamname3.equalsIgnoreCase(args[1]))) {
                         String Teamname = (String) builderSystem.getTeam(args[1].toLowerCase());
                         if (isInt(args[2])) {
 
@@ -108,8 +112,8 @@ public class Worlds implements CommandExecutor, TabCompleter {
                     }
                     break;
                 case "addteam":
-
-                    if (!(ownteamname.equalsIgnoreCase(args[1]))) {
+                    String ownteamname1 = builderSystem.getTeamNameByMember(playerUUID).get("name");
+                    if (!(ownteamname1.equalsIgnoreCase(args[1]))) {
                         String Teamname = (String) builderSystem.getTeam(args[1]);
                         if (isInt(args[2])) {
 
@@ -191,20 +195,20 @@ public class Worlds implements CommandExecutor, TabCompleter {
 
             return arguments;
 
-        } else if (args.length == 1) {
+        } else if (args.length == 2) {
             switch (args[0].toLowerCase()) {
 
                 case "createasteam", "createasuser":
 
-                    if (args.length == 2) {
+                    if (args.length == 3) {
                         List<String> createname = new ArrayList<>();
                         createname.add("<" + t.t("builder_team.tab_task_id", playerUUID) + ">");
                         return createname;
-                    } else if (args.length == 3) {
+                    } else if (args.length == 4) {
                         List<String> createname = new ArrayList<>();
                         createname.add("<" + t.t("builder_team.world.tab_world_name", playerUUID) + ">");
                         return createname;
-                    } else if (args.length == 4) {
+                    } else if (args.length == 5) {
                         List<String> createname = new ArrayList<>();
                         for (Object o : builderSystem.getAllWorldTypes()) {
                             HashMap m = (HashMap) o;

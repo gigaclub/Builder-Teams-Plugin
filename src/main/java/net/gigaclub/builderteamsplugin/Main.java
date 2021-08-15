@@ -1,5 +1,6 @@
 package net.gigaclub.builderteamsplugin;
 
+import de.dytanic.cloudnet.driver.CloudNetDriver;
 import net.gigaclub.buildersystem.BuilderSystem;
 import net.gigaclub.builderteamsplugin.Commands.Tasks;
 import net.gigaclub.builderteamsplugin.Commands.Team;
@@ -33,13 +34,14 @@ public final class Main extends JavaPlugin {
         getCommand("gctask").setExecutor(new Tasks());
         getCommand("gctask").setTabCompleter(new Tasks());
 
-        getCommand("gcprojekt").setExecutor(new Worlds());
-        getCommand("gcprojekt").setTabCompleter(new Worlds());
+        Worlds projeckt = new Worlds();
+        getCommand("gcprojekt").setExecutor(projeckt);
+        getCommand("gcprojekt").setTabCompleter(projeckt);
 
         setConfig();
         FileConfiguration config = getConfig();
 
-
+        CloudNetDriver.getInstance().getEventManager() .registerListener(projeckt);
         setTranslation(new Translation(
                 config.getString("Base.Odoo.Host"),
                 config.getString("Base.Odoo.Database"),

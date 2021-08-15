@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 import static net.gigaclub.builderteamsplugin.Config.Config.getConfig;
@@ -29,6 +30,7 @@ public class joinlistener implements Listener {
     private int serviceId;
     private Player player;
     private @NotNull BukkitTask taskID;
+
     @EventListener
     public void handleServiceConnected(CloudServiceConnectNetworkEvent event) {
         ServiceInfoSnapshot serviceInfoSnapshot = event.getServiceInfo(); //The serviceInfoSnapshot with all important information from a service
@@ -75,27 +77,35 @@ public class joinlistener implements Listener {
         Translation t = Main.getTranslation();
         BuilderSystem builderSystem = Main.getBuilderSystem();
         FileConfiguration config = getConfig();
-        if (config.getBoolean("server.server_autostart")) {
-            Object o = builderSystem.getTeamNameByMember(playerUUID);
-            HashMap m = (HashMap) o;
-            String team_name = m.get("name").toString();
-            System.out.println(1);
 
-                for (Object world_id : (Object[]) m.get("world_ids")) {
+        if (config.getBoolean("server.server_autostart")) {
+
+            Object team = builderSystem.getTeamNameByMember(playerUUID);
+
+            HashMap teamMap = (HashMap) team;
+            if (Objects.equals(teamMap.get("name").toString(), "false")){ System.out.println("no name"); return;}
+
+            String team_name = teamMap.get("name").toString();
+            System.out.println(1+" "+team_name);
+
+                for (Object world_id : (Object[]) teamMap.get("world_ids")) {
                     HashMap world_idMap = (HashMap) world_id;
                     System.out.println(1.1);
                     int word_id = Integer.parseInt(world_idMap.get("id").toString());
+                    System.out.println("ID: "+word_id);
 
-                    for (Object o1 : (Object[]) builderSystem.getWorld(word_id)) {
+                    for (Object world_info : (Object[]) builderSystem.getWorld(word_id)) {
                         System.out.println(1.2);
-                        HashMap m1 = (HashMap) o1;
-                        String world_name = m1.get("name").toString();
-                        Integer task_id = Integer.parseInt(m1.get("task_id").toString());
+                        HashMap world_infoMap = (HashMap) world_info;
+                        String world_name = world_infoMap.get("name").toString();
+                        Integer task_id = Integer.parseInt(world_infoMap.get("task_id").toString());
+
                         for (Object task_o : (Object[]) builderSystem.getTask(task_id)) {
                             System.out.println(1.3);
                             HashMap task_m = (HashMap) task_o;
                             String task_name = task_m.get("name").toString();
-                            String worlds_typ = m1.get("world_type").toString();
+
+                            String worlds_typ = world_idMap.get("world_type").toString();
                             //  world_name, task_name, task_id, worlds_typ, word_id, team_name
                             System.out.println(2);
                             player.sendMessage(t.t("bsc.Command.CreateServer", playerUUID));
@@ -112,12 +122,13 @@ public class joinlistener implements Listener {
                                     .build()
                                     .createNewService();
 
-
+                            System.out.println("nach server daten");
                             if (serviceInfoSnapshot != null) {
                                 System.out.println(3);
                                 serviceInfoSnapshot.provider().start();
                                 serviceId = serviceInfoSnapshot.getServiceId().getTaskServiceId();
                             }
+
                         }
 
                     }
