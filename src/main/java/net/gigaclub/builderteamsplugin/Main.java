@@ -141,8 +141,9 @@ public final class Main extends JavaPlugin {
                 "BuilderSystem.world.name_list",
                 "BuilderSystem.world.world_typ_list",
                 "BuilderSystem.world.team_list",
-                "BuilderSystem.world.user_list"
+                "BuilderSystem.world.user_list",
 
+                "BuilderSystem.countdown_begin"
 //      status msg´s
 
 

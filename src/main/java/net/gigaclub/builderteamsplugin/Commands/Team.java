@@ -248,11 +248,7 @@ public class Team implements CommandExecutor, TabCompleter {
         BuilderSystem builderSystem = Main.getBuilderSystem();
 
 
-        List<String> teamlistofplayer = new ArrayList<>();
-        for (Object o : builderSystem.getAllTeams()) {
-            HashMap m = (HashMap) o;
-            teamlistofplayer.add((String) m.get("name"));
-        }
+
         List<String> playerNames = new ArrayList<>();
         Player[] players = new Player[Bukkit.getServer().getOnlinePlayers().size()];
         Bukkit.getServer().getOnlinePlayers().toArray(players);
@@ -368,6 +364,12 @@ public class Team implements CommandExecutor, TabCompleter {
                     if (args.length == 2) {
                         return playerNames;
                     } else if (args.length == 3) {
+                        List<String> teamlistofplayer = new ArrayList<>();
+                        for (Object o4 : builderSystem.getAllTeams()) {
+                            HashMap m4 = (HashMap) o4;
+                            teamlistofplayer.add((String) m4.get("name"));
+                        }
+
                         return teamlistofplayer;
                     }
                     break;

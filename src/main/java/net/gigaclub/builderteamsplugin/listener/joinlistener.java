@@ -33,6 +33,9 @@ public class joinlistener implements Listener {
 
     @EventListener
     public void handleServiceConnected(CloudServiceConnectNetworkEvent event) {
+        String playerUUID = player.getUniqueId().toString();
+        Translation t = Main.getTranslation();
+
         ServiceInfoSnapshot serviceInfoSnapshot = event.getServiceInfo(); //The serviceInfoSnapshot with all important information from a service
 
         ServiceLifeCycle serviceLifeCycle = serviceInfoSnapshot.getLifeCycle();
@@ -55,6 +58,7 @@ public class joinlistener implements Listener {
                             int countdown = 10;
 
                             public void run() {
+                                player2.sendMessage(t.t("BuilderSystem.countdown_begin", playerUUID));
                                 if (countdown > 0) {
                                     player2.sendMessage(String.valueOf(countdown));
                                 } else {
@@ -107,6 +111,7 @@ public class joinlistener implements Listener {
 
                             String worlds_typ = world_idMap.get("world_type").toString();
                             //  world_name, task_name, task_id, worlds_typ, word_id, team_name
+                            System.out.println(world_name+" "+task_name+" "+task_id+" "+worlds_typ+" "+word_id+" "+team_name);
                             System.out.println(2);
                             player.sendMessage(t.t("bsc.Command.CreateServer", playerUUID));
                             player.sendMessage(t.t("bsc.Command.Teleport", playerUUID));
