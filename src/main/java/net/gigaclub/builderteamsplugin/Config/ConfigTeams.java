@@ -8,7 +8,11 @@ public class ConfigTeams {
 
         FileConfiguration config = Config.getConfig();
 
-        config.addDefault("Teams.create.MaxWorld", 50);
+        config.addDefault("Teams.create.MaxWorld", 25);
+        config.addDefault("Teams.invite.Timersek",15);
+        config.addDefault("Teams.task.Create.x",2500);
+        config.addDefault("Teams.task.Create.y",2500);
+        config.addDefault("server.server_autostart",true);
 
 
         Config.save();
